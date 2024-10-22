@@ -1,19 +1,21 @@
 interface InputProps {
-    value?: string;
+    value?: number;
     placeholder?: string;
     className?: string; 
     min?: number;
     max?: number;
     step?: number;
+    onChange?: (value: number) => void;
 }
 
 export const Input = ({ 
-    value = '',
+    value = 0,
     placeholder = '',
     className = '',
     min,
     max,
     step,
+    onChange,
 }: InputProps) => {
     return (
         <input
@@ -24,6 +26,7 @@ export const Input = ({
             min={min}
             max={max}
             step={step}
+            onChange={(e) => onChange?.(Number(e.target.value))}
         />
     );
 };
