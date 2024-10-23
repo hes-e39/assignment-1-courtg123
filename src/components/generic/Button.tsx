@@ -12,7 +12,7 @@ export const Button = ({
     return (
         <button
             onClick={onClick}
-            className={`px-4 py-1 bg-gray-950 text-white ${className}`}
+            className={`px-4 py-1 bg-gray-950 text-stone-200 border-stone-400 border-solid rounded-md m-1 ${className}`}
         >
             {children}
         </button>

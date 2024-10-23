@@ -11,7 +11,7 @@ interface InputProps {
 export const Input = ({ 
     value = 0,
     placeholder = '',
-    className = '',
+    className = 'm-1 w-16 rounded-sm p-2 text-stone-200 bg-stone-700',
     min,
     max,
     step,

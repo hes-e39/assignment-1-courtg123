@@ -12,10 +12,10 @@ const Stopwatch = () => {
         if (!isStopwatchRunning) {
             setIsStopwatchRunning(true);
             
-            // interval in milliseconds **DEBUG THIS
+            // interval in milliseconds
             const interval = setInterval(() => {
-                setStopwatchTime(prevTime => prevTime + 1);
-            }, 1);
+                setStopwatchTime(prevTime => prevTime + 10);
+            }, 10);
 
             // store the interval id
             setIntervalId(interval);

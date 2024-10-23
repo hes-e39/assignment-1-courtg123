@@ -1,5 +1,7 @@
 import styled from "styled-components";
 
+import { Panel } from "../components/generic/Panel";
+
 import Stopwatch from "../components/timers/Stopwatch";
 import Countdown from "../components/timers/Countdown";
 import XY from "../components/timers/XY";
@@ -9,13 +11,6 @@ const Timers = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-`;
-
-const Timer = styled.div`
-  border: 1px solid gray;
-  padding: 20px;
-  margin: 10px;
-  font-size: 1.5rem;
 `;
 
 const TimerTitle = styled.div``;
@@ -31,10 +26,10 @@ const TimersView = () => {
   return (
     <Timers>
       {timers.map((timer) => (
-        <Timer key={`timer-${timer.title}`}>
+        <Panel key={`timer-${timer.title}`}>
           <TimerTitle>{timer.title}</TimerTitle>
           {timer.C}
-        </Timer>
+        </Panel>
       ))}
     </Timers>
   );
