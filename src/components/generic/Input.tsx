@@ -12,7 +12,7 @@ export const Input = ({
     value = 0,
     placeholder = '',
     className = 'm-1 w-16 rounded-sm p-2 text-stone-200 bg-stone-700',
-    min,
+    min = 0,
     max,
     step,
     onChange,
@@ -30,3 +30,5 @@ export const Input = ({
         />
     );
 };
+
+// TO DO needs a disabled state style?
