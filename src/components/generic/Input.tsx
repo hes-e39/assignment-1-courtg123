@@ -6,6 +6,7 @@ interface InputProps {
     max?: number;
     step?: number;
     onChange?: (value: number) => void;
+    disabled?: boolean;
 }
 
 export const Input = ({ 
@@ -16,6 +17,7 @@ export const Input = ({
     max,
     step,
     onChange,
+    disabled,
 }: InputProps) => {
     return (
         <input
@@ -26,6 +28,7 @@ export const Input = ({
             min={min}
             max={max}
             step={step}
+            disabled={disabled}
             onChange={(e) => onChange?.(Number(e.target.value))}
         />
     );

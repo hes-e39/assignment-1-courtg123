@@ -1,5 +1,5 @@
 interface ButtonProps {
-    children: string;
+    children: React.ReactNode;
     onClick?: () => void;
     className?: string;
 }
@@ -19,4 +19,4 @@ export const Button = ({
     );
 };
 
-// TO DO maybe create variants of buttons here e.g. play/pause, fast forward, reset?
+// TO DO maybe create variants of buttons here e.g. play/pause, fast forward, reset? or primary/secondary?
