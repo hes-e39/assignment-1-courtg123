@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Button } from '../generic/Button';
 import { Input } from '../generic/Input';
 import { DisplayTime } from '../generic/DisplayTime';
@@ -10,14 +10,20 @@ const XY = () => {
     const [xyTime, setXYTime] = useState(0);
     const [isXYRunning, setIsXYRunning] = useState(false);
     const [xyRound, setXYRound] = useState(1);
+    const [isXYCompleted, setIsXYCompleted] = useState(false);
+
+    const xyTimeRef = useRef(0);
+    const xyRoundRef = useRef(1);
 
     const resetTimer = () => {
         const totalMs = (xyTimeMinValue * 60 + xyTimeSecValue) * 1000;
         setXYTime(totalMs);
+        xyTimeRef.current = totalMs;
     }
 
+    // play/pause XY timer
     const handleStart = () => {
-        if (!isXYRunning && (xyTimeMinValue > 0 || xyTimeSecValue > 0)) {
+        if (!isXYRunning && (xyTimeMinValue > 0 || xyTimeSecValue > 0) && !isXYCompleted) {
             setIsXYRunning(true);
             resetTimer();
         } else {
@@ -25,15 +31,22 @@ const XY = () => {
         }
     }
 
+    // reset XY timer
     const handleReset = () => {
         setIsXYRunning(false);
+        setIsXYCompleted(false);
         setXYRound(1);
         resetTimer();
     }
 
-    // TO DO
+    // fast forward XY timer
     const handleFastForward = () => {
         setIsXYRunning(false);
+        setIsXYCompleted(true);
+        setXYRound(xyRoundsValue);
+        xyRoundRef.current = xyRoundsValue;
+        setXYTime(0);
+        xyTimeRef.current = 0;
     }
 
     // TO DO: bug with skipping rounds... 
@@ -83,7 +96,7 @@ const XY = () => {
             <Input
                 value={xyRoundsValue}
                 onChange={setXYRoundsValue}
-                min="1"
+                min={0}
                 placeholder="#" />
             <div>
                 <Button onClick={handleStart}>
@@ -97,6 +110,21 @@ const XY = () => {
                         <path
                             fill="currentColor" 
                             d="M 2.6585,4.24744 C 2.36321,3.98906 1.9441,3.92725 1.58678,4.08938 1.22947,4.25152 1,4.60764 1,5.00002 v 14 c 0,0.3924 0.22947,0.7485 0.58678,0.9106 0.35732,0.1622 0.77643,0.1004 1.07172,-0.158 l 8,-7 C 10.8755,12.56272 11,12.28842 11,12.00002 c 0,-0.2883 -0.1245,-0.5627 -0.3415,-0.7526 l -8,-6.99996 z M 13,4 c -0.5523,0 -1,0.44772 -1,1 v 14 c 0,0.5523 0.4477,1 1,1 h 3 c 0.5523,0 1,-0.4477 1,-1 V 5 C 17,4.44772 16.5523,4 16,4 Z m 6,0 c -0.5523,0 -1,0.44772 -1,1 v 14 c 0,0.5523 0.4477,1 1,1 h 3 c 0.5523,0 1,-0.4477 1,-1 V 5 C 23,4.44772 22.5523,4 22,4 Z"
+                        />
+                    </svg>
+                </Button>
+
+                <Button onClick={handleFastForward}>
+                    {/* icon svg from icons8.com */}
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        className="w-10 h-10"
+                    >
+                        <title id="fastforward">Fast Forward</title>
+                        <path
+                            fill="currentColor" 
+                            d="M 4,4.24744 C 3.70471,3.98906 3.2856,3.92725 2.92828,4.08938 2.57097,4.25152 2.3415,4.60764 2.3415,5.00002 v 14 c 0,0.3924 0.22947,0.7485 0.58678,0.9106 0.35732,0.1622 0.77643,0.1004 1.07172,-0.158 l 8,-7 C 12.2170,12.56272 12.3415,12.28842 12.3415,12.00002 12.3415,11.71172 12.2170,11.43732 12,11.24742 l -8,-6.99996 z M 14.3415,4.24744 C 14.04621,3.98906 13.6271,3.92725 13.26978,4.08938 12.91247,4.25152 12.683,4.60764 12.683,5.00002 v 14 c 0,0.3924 0.22947,0.7485 0.58678,0.9106 0.35732,0.1622 0.77643,0.1004 1.07172,-0.158 l 8,-7 C 22.5585,12.56272 22.683,12.28842 22.683,12.00002 22.683,11.71172 22.5585,11.43732 22.3415,11.24742 l -8,-6.99996 z"
                         />
                     </svg>
                 </Button>

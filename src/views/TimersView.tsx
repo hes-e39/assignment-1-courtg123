@@ -13,8 +13,6 @@ const Timers = styled.div`
   align-items: center;
 `;
 
-const TimerTitle = styled.div``;
-
 const TimersView = () => {
   const timers = [
     { title: "Stopwatch", C: <Stopwatch /> },
