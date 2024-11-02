@@ -42,6 +42,7 @@ const Tabata = () => {
             <Input
                 value={roundsValue}
                 onChange={setRoundsValue}
+                min="1"
                 placeholder="#" />
             <div><Button>PLAY/PAUSE</Button> <Button>FAST FORWARD</Button></div>
             <div><Button>RESET</Button></div>

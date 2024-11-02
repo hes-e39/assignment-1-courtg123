@@ -39,7 +39,7 @@ const Countdown = () => {
         }
     };
 
-    // reset the stopwatch
+    // reset the countdown
     const handleReset = () => {
         clearInterval(intervalId);
         setIsCountdownRunning(false);
