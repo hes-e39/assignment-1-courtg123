@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '../generic/Button';
 import { Input } from '../generic/Input';
 import { DisplayTime } from '../generic/DisplayTime';
@@ -8,51 +8,59 @@ const XY = () => {
     const [xyTimeSecValue, setXYTimeSecValue] = useState(0);
     const [xyRoundsValue, setXYRoundsValue] = useState(1);
     const [xyTime, setXYTime] = useState(0);
-    const [isXYRunning, setIsXYRunning] = useState(0);
+    const [isXYRunning, setIsXYRunning] = useState(false);
     const [xyRound, setXYRound] = useState(1);
-    const [intervalId, setIntervalId] = useState(0);
+
+    const resetTimer = () => {
+        const totalMs = (xyTimeMinValue * 60 + xyTimeSecValue) * 1000;
+        setXYTime(totalMs);
+    }
 
     const handleStart = () => {
-        if (!isXYRunning) {
+        if (!isXYRunning && (xyTimeMinValue > 0 || xyTimeSecValue > 0)) {
             setIsXYRunning(true);
-            const totalMs = (xyTimeMinValue * 60 + xyTimeSecValue) * 1000;
-            setXYTime(totalMs);
-
-            const interval = setInterval(() => {
-                setXYTime(prevTime => {
-                    if (prevTime <= 0) {
-                        if (xyRound < xyRoundsValue) {
-                            setXYRound(prevRound => prevRound + 1);
-                            return (xyTimeMinValue * 60 + xyTimeSecValue) * 1000;
-                        } else {
-                            clearInterval(interval);
-                            setIntervalId(0);
-                            setIsXYRunning(false);
-                            return 0;
-                        }
-                    }
-                    return prevTime - 10;
-                });
-            }, 10);
-
-            setIntervalId(interval);
+            resetTimer();
         } else {
-            clearInterval(intervalId);
             setIsXYRunning(false);
         }
     }
 
-
     const handleReset = () => {
-        clearInterval(intervalId);
         setIsXYRunning(false);
         setXYRound(1);
-        setXYTime(0);
+        resetTimer();
     }
 
+    // TO DO
     const handleFastForward = () => {
         setIsXYRunning(false);
     }
+
+    // TO DO: bug with skipping rounds... 
+    useEffect(() => {
+        let interval: number;
+
+        if(isXYRunning) {
+            interval = setInterval(() => {
+                setXYTime((prevTime) => {
+                    if (prevTime <= 0) {
+                        if (xyRound >= xyRoundsValue) {
+                            setIsXYRunning(false);
+                            return 0;
+                        }
+                        setXYRound((prevRound) => prevRound + 1);
+                        return (xyTimeMinValue * 60 + xyTimeSecValue) * 1000;
+                    }
+                    return prevTime - 10;
+                })
+            }, 10)
+        }
+
+        // clean up setInterval
+        return () => {
+            if (interval) clearInterval(interval);
+        }
+    }, [isXYRunning, xyRound, xyRoundsValue, xyTimeMinValue, xyTimeSecValue]);
 
     return (
         <div>
