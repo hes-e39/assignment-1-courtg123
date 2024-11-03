@@ -115,12 +115,16 @@ const Tabata = () => {
                             label="Min"
                             value={workMinTimeValue}
                             onChange={setWorkMinTimeValue}
-                            placeholder="#" />
+                            placeholder="#"
+                            disabled={isTabataRunning}
+                        />
                         <Input
                             label="Sec"
                             value={workSecTimeValue}
                             onChange={setWorkSecTimeValue}
-                            placeholder="#" />
+                            placeholder="#"
+                            disabled={isTabataRunning}
+                        />
                     </div>
                 </div>
                 <div className="mb-6">
@@ -130,12 +134,16 @@ const Tabata = () => {
                             label="Min"
                             value={restMinTimeValue}
                             onChange={setRestMinTimeValue}
-                            placeholder="#" />
+                            placeholder="#" 
+                            disabled={isTabataRunning}
+                        />
                         <Input
                             label="Sec"
                             value={restSecTimeValue}
                             onChange={setRestSecTimeValue}
-                            placeholder="#" />
+                            placeholder="#"
+                            disabled={isTabataRunning}
+                        />
                     </div>
                 </div>
             </div>
@@ -144,7 +152,9 @@ const Tabata = () => {
                     value={tabataRoundsValue}
                     onChange={setTabataRoundsValue}
                     min={1}
-                    placeholder="#" />
+                    placeholder="#"
+                    disabled={isTabataRunning}
+                />
             
         </div>
     );

@@ -96,19 +96,25 @@ const XY = () => {
                     label="Min"
                     value={xyTimeMinValue}
                     onChange={setXYTimeMinValue}
-                    placeholder="#" />
+                    placeholder="#"
+                    disabled={isXYRunning}
+                />
                 <Input
                     label="Sec"
                     value={xyTimeSecValue}
                     onChange={setXYTimeSecValue}
-                    placeholder="#" />
+                    placeholder="#"
+                    disabled={isXYRunning}
+                />
             </div>
             <Input
                 label="Rounds"
                 value={xyRoundsValue}
                 onChange={setXYRoundsValue}
                 min={0}
-                placeholder="#" />
+                placeholder="#"
+                disabled={isXYRunning}
+            />
 
         </div>
     );
