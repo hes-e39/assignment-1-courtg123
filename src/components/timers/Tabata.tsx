@@ -28,18 +28,16 @@ const Tabata = () => {
         tabataPhaseRef.current = 'Work';
     }
 
-    // TO DO fix bug where time resets when unpaused
     // play/pause Tabata timer
     const handleStart = () => {
         if (!isTabataRunning && (workMinTimeValue > 0 || workSecTimeValue > 0) && !isTabataCompleted) {
             setIsTabataRunning(true);
-            resetTimer();
         } else {
             setIsTabataRunning(false);
         }
     }
 
-    // TO DO reset Tabata timer
+    // reset Tabata timer
     const handleReset = () => {
         setIsTabataRunning(false);
         setIsTabataCompleted(false);
@@ -48,7 +46,7 @@ const Tabata = () => {
         resetTimer();
     }
 
-    // TO DO fast forward Tabata timer
+    // fast forward Tabata timer
     const handleFastForward = () => {
         setIsTabataRunning(false);
         setIsTabataCompleted(true);

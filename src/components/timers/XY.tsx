@@ -28,7 +28,6 @@ const XY = () => {
     const handleStart = () => {
         if (!isXYRunning && (xyTimeMinValue > 0 || xyTimeSecValue > 0) && !isXYCompleted) {
             setIsXYRunning(true);
-            resetTimer();
         } else {
             setIsXYRunning(false);
         }
