@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { FastForwardButton, PlayPauseButton, ResetButton } from '../generic/Button';
 import { Input } from '../generic/Input';
 import { DisplayTime } from '../generic/DisplayTime';
+import { DisplayRounds } from '../generic/DisplayRounds';
 
 const XY = () => {
     const [xyTimeMinValue, setXYTimeMinValue] = useState(0);
@@ -49,7 +50,7 @@ const XY = () => {
         xyTimeRef.current = 0;
     }
 
-    // TO DO: bug with skipping rounds... 
+    // timer hook 
     useEffect(() => {
         let interval: number;
 
@@ -78,7 +79,15 @@ const XY = () => {
     return (
         <div>
             <DisplayTime timeInMs={xyTime} />
-            <div>Round {xyRound}/{xyRoundsValue}</div>
+            <DisplayRounds currentRound={xyRound} totalRounds={xyRoundsValue} />
+            <div>
+                <PlayPauseButton onClick={handleStart} />
+                <FastForwardButton onClick={handleFastForward} />
+            </div>
+            <div>
+                <ResetButton onClick={handleReset} />
+            </div>
+            <hr />
             <div>Time:</div>
             <div>
                 Min:
@@ -98,13 +107,7 @@ const XY = () => {
                 onChange={setXYRoundsValue}
                 min={0}
                 placeholder="#" />
-            <div>
-                <PlayPauseButton onClick={handleStart} />
-                <FastForwardButton onClick={handleFastForward} />
-            </div>
-            <div>
-                <ResetButton onClick={handleReset} />
-            </div>
+
         </div>
     );
 };
