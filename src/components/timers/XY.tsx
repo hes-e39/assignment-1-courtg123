@@ -22,8 +22,6 @@ const XY = () => {
         xyTimeRef.current = totalMs;
     }
 
-
-    // TO DO fix bug where time resets when unpaused
     // play/pause XY timer
     const handleStart = () => {
         if (!isXYRunning && (xyTimeMinValue > 0 || xyTimeSecValue > 0) && !isXYCompleted) {
