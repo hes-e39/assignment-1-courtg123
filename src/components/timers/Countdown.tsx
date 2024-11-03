@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { PlayPauseButton, FastForwardButton, ResetButton } from '../generic/Button';
 import { Input } from '../generic/Input';
 import { DisplayTime } from '../generic/DisplayTime';
+import { convertToMs } from '../../utils/helpers';
 
 const Countdown = () => {
     const [countdownMinValue, setCountdownMinValue] = useState(0);
@@ -12,13 +13,13 @@ const Countdown = () => {
 
     // play/pause Countdown timer
     const handleStart = () => {
-        const totalMs = (countdownMinValue * 60 + countdownSecValue) * 1000;
+        const totalMs = convertToMs(countdownMinValue, countdownSecValue);
 
         if (!isCountdownRunning && totalMs > 0) {
             setIsCountdownRunning(true);
             setCountdownTime(totalMs);
             
-            // interval in milliseconds
+            // interval updates every 10ms
             const interval = setInterval(() => {
                 setCountdownTime(prevTime => {
                     if (prevTime <= 0) {
@@ -39,21 +40,21 @@ const Countdown = () => {
         }
     };
 
-    // reset Countdown timer
+    // reset Countdown timer - stopped, timer at 0, reset to initial state
     const handleReset = () => {
         clearInterval(intervalId);
         setIsCountdownRunning(false);
         setCountdownTime(0);
     }
 
-    // fast forward Countdown timer
+    // fast forward Countdown timer - stopped, timer at 0
     const handleFastForward = () => {
         setCountdownTime(0);
         setIsCountdownRunning(false);
         clearInterval(intervalId);
     }
 
-
+    // display timer
     return (
         <div>
             <DisplayTime timeInMs={countdownTime} />

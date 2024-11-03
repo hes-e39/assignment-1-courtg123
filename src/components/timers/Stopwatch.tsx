@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { PlayPauseButton, FastForwardButton, ResetButton } from '../generic/Button';
 import { Input } from '../generic/Input';
 import { DisplayTime } from '../generic/DisplayTime';
+import { convertToMs } from '../../utils/helpers';
 
 const Stopwatch = () => {
     const [stopwatchTime, setStopwatchTime] = useState(0);
@@ -12,12 +13,12 @@ const Stopwatch = () => {
 
     // play/pause Stopwatch timer
     const handleStart = () => {
-        const totalMs = (stopwatchMinValue * 60 + stopwatchSecValue) * 1000;
+        const totalMs = convertToMs(stopwatchMinValue, stopwatchSecValue);
 
         if (!isStopwatchRunning && totalMs > 0) {
             setIsStopwatchRunning(true);
             
-            // interval in milliseconds
+            // interval updates every 10ms
             const interval = setInterval(() => {
                 setStopwatchTime(prevTime => {
                     if (prevTime >= totalMs) {
@@ -38,22 +39,22 @@ const Stopwatch = () => {
         }
     };
 
-    // reset Stopwatch timer
+    // reset Stopwatch timer - stopped, timer at 0, reset to initial state
     const handleReset = () => {
         clearInterval(intervalId);
         setIsStopwatchRunning(false);
         setStopwatchTime(0);
     }
 
-    // fast forward Stopwatch timer
+    // fast forward Stopwatch timer - stopped, timer at end time
     const handleFastForward = () => {
         setIsStopwatchRunning(false);
-        const totalMs = (stopwatchMinValue * 60 + stopwatchSecValue) * 1000;
+        const totalMs = convertToMs(stopwatchMinValue, stopwatchSecValue);
         setStopwatchTime(totalMs);
         return totalMs;
     }
     
-
+    // display timer
     return (
         <div>
             <DisplayTime timeInMs={stopwatchTime} />

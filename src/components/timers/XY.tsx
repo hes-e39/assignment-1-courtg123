@@ -3,6 +3,7 @@ import { FastForwardButton, PlayPauseButton, ResetButton } from '../generic/Butt
 import { Input } from '../generic/Input';
 import { DisplayTime } from '../generic/DisplayTime';
 import { DisplayRounds } from '../generic/DisplayRounds';
+import { convertToMs } from '../../utils/helpers';
 
 const XY = () => {
     const [xyTimeMinValue, setXYTimeMinValue] = useState(0);
@@ -16,8 +17,9 @@ const XY = () => {
     const xyTimeRef = useRef(0);
     const xyRoundRef = useRef(1);
 
+    // reset timer value to initial time
     const resetTimer = () => {
-        const totalMs = (xyTimeMinValue * 60 + xyTimeSecValue) * 1000;
+        const totalMs = convertToMs(xyTimeMinValue, xyTimeSecValue);
         setXYTime(totalMs);
         xyTimeRef.current = totalMs;
     }
@@ -31,7 +33,7 @@ const XY = () => {
         }
     }
 
-    // reset XY timer
+    // reset XY timer - stopped, round 1, initial time
     const handleReset = () => {
         setIsXYRunning(false);
         setIsXYCompleted(false);
@@ -39,7 +41,7 @@ const XY = () => {
         resetTimer();
     }
 
-    // fast forward XY timer
+    // fast forward XY timer - all rounds completed, timer at 0
     const handleFastForward = () => {
         setIsXYRunning(false);
         setIsXYCompleted(true);
@@ -51,19 +53,26 @@ const XY = () => {
 
     // timer hook 
     useEffect(() => {
+        // interval
         let interval: number;
 
         if(isXYRunning) {
+            // interval updates every 10ms
             interval = setInterval(() => {
                 setXYTime((prevTime) => {
+                    // check if current interval completed
                     if (prevTime <= 0) {
+                        // check if all rounds completed
                         if (xyRound >= xyRoundsValue) {
+                            // completed - stop timer
                             setIsXYRunning(false);
                             return 0;
                         }
+                        // increment round
                         setXYRound((prevRound) => prevRound + 1);
-                        return (xyTimeMinValue * 60 + xyTimeSecValue) * 1000;
+                        return convertToMs(xyTimeMinValue, xyTimeSecValue);
                     }
+                    // decrease timer by 10ms
                     return prevTime - 10;
                 })
             }, 10)
@@ -75,6 +84,7 @@ const XY = () => {
         }
     }, [isXYRunning, xyRound, xyRoundsValue, xyTimeMinValue, xyTimeSecValue]);
 
+    // display timer
     return (
         <div>
             <DisplayTime timeInMs={xyTime} />

@@ -4,8 +4,8 @@ interface DisplayRoundsProps {
     phase?: 'Work' | 'Rest'
 }
 
-// display formatted rounds and style with Tailwind (source: Tailwind CSS documentation)
-export const DisplayRounds: React.FC<DisplayRoundsProps> = ({ currentRound, totalRounds, phase }) => {
+// display formatted rounds w/ optional phase, and style with Tailwind (style tags source: Tailwind CSS documentation)
+export const DisplayRounds =({ currentRound, totalRounds, phase }: DisplayRoundsProps) => {
     return (
         <div className="font-mono text-4xl text-green-200 font-bold mb-5">
             <div className="mb-2">Round {currentRound}/{totalRounds}</div>

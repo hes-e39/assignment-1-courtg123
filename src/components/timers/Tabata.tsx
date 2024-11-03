@@ -3,6 +3,7 @@ import { PlayPauseButton, FastForwardButton, ResetButton } from '../generic/Butt
 import { Input } from '../generic/Input';
 import { DisplayTime } from '../generic/DisplayTime';
 import { DisplayRounds } from '../generic/DisplayRounds';
+import { convertToMs } from '../../utils/helpers';
 
 const Tabata = () => {
     const [workMinTimeValue, setWorkMinTimeValue] = useState(0);
@@ -20,8 +21,9 @@ const Tabata = () => {
     const tabataRoundRef = useRef(1);
     const tabataPhaseRef = useRef<'Work' | 'Rest'>('Work');
 
+    // reset timer value to initial time
     const resetTimer = () => {
-        const workTime = (workMinTimeValue * 60 + workSecTimeValue) * 1000;
+        const workTime = convertToMs(workMinTimeValue, workSecTimeValue);
         setTabataTime(workTime);
         tabataTimeRef.current = workTime;
         setCurrentPhase('Work');
@@ -37,7 +39,7 @@ const Tabata = () => {
         }
     }
 
-    // reset Tabata timer
+    // reset Tabata timer - stopped, round 1, work phase
     const handleReset = () => {
         setIsTabataRunning(false);
         setIsTabataCompleted(false);
@@ -46,7 +48,7 @@ const Tabata = () => {
         resetTimer();
     }
 
-    // fast forward Tabata timer
+    // fast forward Tabata timer - all rounds completed, timer at 0, rest phase
     const handleFastForward = () => {
         setIsTabataRunning(false);
         setIsTabataCompleted(true);
@@ -58,31 +60,39 @@ const Tabata = () => {
         tabataPhaseRef.current = 'Rest';
     }
 
-    // timer hook - TO DO check if this runs on production ok
+    // timer hook
     useEffect(() => {
+        // interval
         let interval: number;
 
         if(isTabataRunning) {
+            // interval updates every 10ms
             interval = setInterval(() => {
                 setTabataTime((prevTime) => {
+                    // check if current interval completed
                     if (prevTime <= 0) {
+                        // flip between work and rest
                         if (tabataPhaseRef.current === 'Work') {
                             tabataPhaseRef.current = 'Rest';
                             setCurrentPhase('Rest');
-                            return (restMinTimeValue * 60 + restSecTimeValue) * 1000;
+                            return convertToMs(restMinTimeValue, restSecTimeValue);
                         } else {
+                            // check if all rounds completed
                             if (tabataRoundRef.current >= tabataRoundsValue) {
+                                // completed - stop timer and update state
                                 setIsTabataRunning(false);
                                 setIsTabataCompleted(true);
                                 return 0;
                             }
+                            // increment round and flip back to work
                             tabataRoundRef.current += 1;
                             setTabataRound(tabataRoundRef.current);
                             tabataPhaseRef.current = 'Work';
                             setCurrentPhase('Work');
-                            return (workMinTimeValue * 60 + workSecTimeValue) * 1000;
+                            return convertToMs(workMinTimeValue, workSecTimeValue);
                         }
                     }
+                    // decrease timer by 10ms
                     return prevTime - 10;
                 })
             }, 10)
@@ -94,7 +104,7 @@ const Tabata = () => {
         }
     }, [isTabataRunning, tabataRoundsValue, workMinTimeValue, workSecTimeValue, restMinTimeValue, restSecTimeValue]);
 
-
+    // display timer
     return (
         <div>
             <DisplayTime timeInMs={tabataTime} />
