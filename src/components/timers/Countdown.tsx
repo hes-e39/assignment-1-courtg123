@@ -46,9 +46,11 @@ const Countdown = () => {
         setCountdownTime(0);
     }
 
-    // TO DO fast forward Countdown timer
+    // fast forward Countdown timer
     const handleFastForward = () => {
-        return;
+        setCountdownTime(0);
+        setIsCountdownRunning(false);
+        clearInterval(intervalId);
     }
 
 
