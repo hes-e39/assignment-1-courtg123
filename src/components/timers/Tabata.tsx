@@ -33,11 +33,10 @@ const Tabata = () => {
     // play/pause Tabata timer
     const handleStart = () => {
         if (!isTabataRunning && (workMinTimeValue > 0 || workSecTimeValue > 0) && !isTabataCompleted) {
-            const workTime = convertToMs(workMinTimeValue, workSecTimeValue);
-            setTabataTime(workTime);
-            tabataTimeRef.current = workTime;
-            setCurrentPhase('Work');
-            tabataPhaseRef.current = 'Work';
+            // check if it is the first start
+            if (tabataTime === 0 && currentPhase === 'Work' && tabataRound === 1) {
+                resetTimer();
+            }
             setIsTabataRunning(true);
         } else {
             setIsTabataRunning(false);
