@@ -28,6 +28,7 @@ const Tabata = () => {
         tabataPhaseRef.current = 'Work';
     }
 
+    // TO DO fix bug where time resets when unpaused
     // play/pause Tabata timer
     const handleStart = () => {
         if (!isTabataRunning && (workMinTimeValue > 0 || workSecTimeValue > 0) && !isTabataCompleted) {
@@ -100,45 +101,50 @@ const Tabata = () => {
         <div>
             <DisplayTime timeInMs={tabataTime} />
             <DisplayRounds currentRound={tabataRound} totalRounds={tabataRoundsValue} phase={currentPhase} />
-            <div>Work:</div>
-            <div>
-                Min: 
-                <Input
-                    value={workMinTimeValue}
-                    onChange={setWorkMinTimeValue}
-                    placeholder="#" />
-                Sec: 
-                <Input
-                    value={workSecTimeValue}
-                    onChange={setWorkSecTimeValue}
-                    placeholder="#" />
-            </div>
-            <div>Rest:</div>
-            <div>
-                Min: 
-                <Input
-                    value={restMinTimeValue}
-                    onChange={setRestMinTimeValue}
-                    placeholder="#" />
-                Sec: 
-                <Input
-                    value={restSecTimeValue}
-                    onChange={setRestSecTimeValue}
-                    placeholder="#" />
-            </div>
-            <div>Rounds:</div>
-            <Input
-                value={tabataRoundsValue}
-                onChange={setTabataRoundsValue}
-                min={1}
-                placeholder="#" />
-            <div>
+            <div className="mb-8">
                 <PlayPauseButton onClick={handleStart} />
                 <FastForwardButton onClick={handleFastForward} />
-            </div>
-            <div>
                 <ResetButton onClick={handleReset} />
             </div>
+            <hr className="opacity-10" />
+            <div className="mt-8 flex flex-row justify-center items-center space-x-8">
+                <div className="mb-6">
+                    <p className="font-bold mb-2">Work</p>
+                    <div className="flex flex-row justify-center items-center">
+                        <Input
+                            label="Min"
+                            value={workMinTimeValue}
+                            onChange={setWorkMinTimeValue}
+                            placeholder="#" />
+                        <Input
+                            label="Sec"
+                            value={workSecTimeValue}
+                            onChange={setWorkSecTimeValue}
+                            placeholder="#" />
+                    </div>
+                </div>
+                <div className="mb-6">
+                    <p className="font-bold mb-2">Rest</p>
+                    <div className="flex flex-row justify-center items-center">
+                        <Input
+                            label="Min"
+                            value={restMinTimeValue}
+                            onChange={setRestMinTimeValue}
+                            placeholder="#" />
+                        <Input
+                            label="Sec"
+                            value={restSecTimeValue}
+                            onChange={setRestSecTimeValue}
+                            placeholder="#" />
+                    </div>
+                </div>
+            </div>
+                <Input
+                    label="Rounds"
+                    value={tabataRoundsValue}
+                    onChange={setTabataRoundsValue}
+                    min={1}
+                    placeholder="#" />
             
         </div>
     );

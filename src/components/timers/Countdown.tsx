@@ -55,26 +55,25 @@ const Countdown = () => {
     return (
         <div>
             <DisplayTime timeInMs={countdownTime} />
-            <div>
-                Min:
+            <div className="mb-8">
+                <PlayPauseButton onClick={handleStart} />
+                <FastForwardButton onClick={handleFastForward} />
+                <ResetButton onClick={handleReset} />
+            </div>
+            <hr className="opacity-10" />
+            <div className="mt-8 flex flex-row justify-center items-center">
                 <Input
+                    label="Min"
                     value={countdownMinValue}
                     onChange={setCountdownMinValue}
                     placeholder="#"
                     disabled={isCountdownRunning} />
-                Sec:
                 <Input
+                    label="Sec"
                     value={countdownSecValue}
                     onChange={setCountdownSecValue}
                     placeholder="#"
                     disabled={isCountdownRunning} />
-            </div>
-            <div>
-                <PlayPauseButton onClick={handleStart} />
-                <FastForwardButton onClick={handleFastForward} />
-            </div>
-            <div>
-                <ResetButton onClick={handleReset} />
             </div>
         </div>
     );

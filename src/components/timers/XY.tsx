@@ -22,6 +22,8 @@ const XY = () => {
         xyTimeRef.current = totalMs;
     }
 
+
+    // TO DO fix bug where time resets when unpaused
     // play/pause XY timer
     const handleStart = () => {
         if (!isXYRunning && (xyTimeMinValue > 0 || xyTimeSecValue > 0) && !isXYCompleted) {
@@ -80,29 +82,29 @@ const XY = () => {
         <div>
             <DisplayTime timeInMs={xyTime} />
             <DisplayRounds currentRound={xyRound} totalRounds={xyRoundsValue} />
-            <div>
+            <div className="mb-8">
                 <PlayPauseButton onClick={handleStart} />
                 <FastForwardButton onClick={handleFastForward} />
-            </div>
-            <div>
                 <ResetButton onClick={handleReset} />
             </div>
-            <hr />
-            <div>Time:</div>
-            <div>
-                Min:
+            <hr className="opacity-10" />
+            <div className="mt-8">
+                    <p className="font-bold mb-2">Time</p>
+            </div>
+            <div className="flex flex-row justify-center items-center mb-6">
                 <Input
+                    label="Min"
                     value={xyTimeMinValue}
                     onChange={setXYTimeMinValue}
                     placeholder="#" />
-                Sec:
                 <Input
+                    label="Sec"
                     value={xyTimeSecValue}
                     onChange={setXYTimeSecValue}
                     placeholder="#" />
             </div>
-            <div>Rounds:</div>
             <Input
+                label="Rounds"
                 value={xyRoundsValue}
                 onChange={setXYRoundsValue}
                 min={0}

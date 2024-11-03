@@ -57,27 +57,27 @@ const Stopwatch = () => {
     return (
         <div>
             <DisplayTime timeInMs={stopwatchTime} />
-            <div>
-                Min:
+            <div className="mb-8">
+                <PlayPauseButton onClick={handleStart} />
+                <FastForwardButton onClick={handleFastForward} />
+                <ResetButton onClick={handleReset} />
+            </div>
+            <hr className="opacity-10" />
+            <div className="mt-8 flex flex-row justify-center items-center">
                 <Input
+                    label="Min"
                     value={stopwatchMinValue}
                     onChange={setStopwatchMinValue}
                     placeholder="#"
                     disabled={isStopwatchRunning} />
-                Sec:
                 <Input
+                    label="Sec"
                     value={stopwatchSecValue}
                     onChange={setStopwatchSecValue}
                     placeholder="#"
                     disabled={isStopwatchRunning} />
             </div>
-            <div>
-                <PlayPauseButton onClick={handleStart} />
-                <FastForwardButton onClick={handleFastForward} />
-            </div>
-            <div>
-                <ResetButton onClick={handleReset} />
-            </div>
+
         </div>
     );
 };
