@@ -27,6 +27,10 @@ const XY = () => {
     // play/pause XY timer
     const handleStart = () => {
         if (!isXYRunning && (xyTimeMinValue > 0 || xyTimeSecValue > 0) && !isXYCompleted) {
+            // check if it is the first start
+            if (xyTime === 0 && xyRound === 1) {
+                resetTimer();
+            }
             setIsXYRunning(true);
         } else {
             setIsXYRunning(false);
